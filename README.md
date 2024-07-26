@@ -3,4 +3,4 @@
 # Installation
  The algorithm is completed by c++, and the software requires microsoft visual studio 2023
 # Running Adaptive Sampling Algorithm
- The folder *Adaptive Sampling Algorithm* contains our algorithm and the floder *include* contains the header files. You can use *main.cpp* to run our algorithm.
+ The `include` folder contains the header files supporting the algorithm and you can use `main.cpp` to run our algorithm.
