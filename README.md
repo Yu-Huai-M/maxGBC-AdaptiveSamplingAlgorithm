@@ -7,4 +7,4 @@
 # Running
  The folder `include` contains the header files supporting our algorithm and you can use `main.cpp` to run our algorithm.
 # Datasets
-  We adopt real-world networks, which can be found in `datasets.rar`.
+ We adopt real-world networks, which can be found in `datasets.rar`.
