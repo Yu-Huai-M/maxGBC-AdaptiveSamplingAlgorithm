@@ -6,6 +6,6 @@
 # Running
  The folder `include` contains the header files supporting our algorithm and you can use `main.cpp` to run our algorithm.
 # Datasets
- We adopt real-world networks, which can be found in `datasets.rar`.
+ We adopt real-world networks, which can be found in `datasets`.
 # Results
  Experimental results with real-world networks demonstrate that the running time of the proposed algorithm is from 2.5 to 18 times faster than the state-of-the-art, while the centrality of the group found by the algorithm is comparable with the baseline.
