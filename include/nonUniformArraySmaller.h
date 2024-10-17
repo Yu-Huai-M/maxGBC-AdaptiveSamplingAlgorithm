@@ -5,7 +5,18 @@
 #include "nonUniformArray.h"
 using namespace std;
 
-const size_t MAX_ROWS_OneCC = 10000;
+const size_t MAX_ROWS_OneCC = 800000;
+
+//0: GrQc:             6000
+//7: Facebook:        70000
+//2: Twitter:        100000
+//6: Email - euAll:  300000
+//3: DBLP - 2011:   1000000
+//4: LiveJournal:   5400000
+//5: dblp:            60000
+// 2: Epinions      80000
+//12: syntheticNetwork-BA: 800000
+// 13: syntheticNetwork-WS: 800000
 
 // this class defines a data structure, called non-uniform array,
 // which is a two-dimensional array, but the sizes of different rows

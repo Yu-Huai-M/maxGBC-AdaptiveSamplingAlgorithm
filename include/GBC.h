@@ -569,20 +569,20 @@ void GroupBetweenesssCentrality::compareDifferentSamplePathsMethods(const char* 
 	clock_t ft;
 
 	double epsilon = 0.3;
-	int K = 100;
+	int K = 20;
 	double epsilonKDD23, epsilonKDD16;
 
 	double gamma = 0.01;
 	
 	double nodesFractionForEvaluation =0.005;
-	int testTimes = 1;
+	int testTimes = 20;
 
 	double curGBC=0;
 
 	char comparisonOutGBCFileName[200];
 	char comparisonOutSampleNumberFileName[200];
 
-	int comparisonType = 1;  // 1: compare different values of K, 2: compare different values of epsilon
+	int comparisonType = 2;  // 1: compare different values of K, 2: compare different values of epsilon
 	
 	if (1 == comparisonType) {
 		sprintf_s(comparisonOutGBCFileName, "%s-comparisonK-epsion=%.1lf-GBC.txt", graphName, epsilon);
@@ -593,7 +593,7 @@ void GroupBetweenesssCentrality::compareDifferentSamplePathsMethods(const char* 
 		sprintf_s(comparisonOutSampleNumberFileName, "%s-comparisonEpsilon-K=%d-numPaths.txt", graphName, K);
 	}
 
-	/*vector<double> foundTime;
+	vector<double> foundTime;
 	int L = 10000;
 	char comparisonOutRunTimeFileName[200];
 	
@@ -615,18 +615,17 @@ void GroupBetweenesssCentrality::compareDifferentSamplePathsMethods(const char* 
 	/**/
 
 
-	/*double alpha;
+	double alpha;
 	double e = 2.71828;
 	double gbc[101];
-	gbc[20] = 0.185301;
-	gbc[40] = 0.161855;
-	gbc[50] = 0.18778;
-	gbc[60]	= 0.192596;
-	gbc[80]	= 0.213626;
-	gbc[100] = 0.230036;
+	gbc[20] = 0.374619;
+	gbc[40] = 0.484328;
+	gbc[60]	= 0.535237;
+	gbc[80]	= 0.582281;
+	gbc[100] = 0.613642;
 
 
-	epsilon = 0.3;
+	/*epsilon = 0.3;
 	for (K = 20; K <= 100; K += 20) gbc[K] /= scaleDownFactor;
 	gbc[50] /= scaleDownFactor;
 	double Qmax = ceil(log(double(n) * (n - 1.0)));
@@ -637,7 +636,7 @@ void GroupBetweenesssCentrality::compareDifferentSamplePathsMethods(const char* 
 		epsilon = 0.3;
 		printf("\n----epsilon: %.1lf\n", epsilon);
 		ofstream outNumPaths(comparisonOutSampleNumberFileName, ios::app);
-		for (K = 20; K <= 20; K += 20)
+		for (K = 20; K <= 100; K += 20)
 		{
 			outNumPaths << K << '\t';
 			alpha = epsilon / (2 - 1.0 / e);
@@ -655,10 +654,10 @@ void GroupBetweenesssCentrality::compareDifferentSamplePathsMethods(const char* 
 		outNumPaths.close();
 	}
 	else {
-		K = 50;
+		K = 20;
 		printf("\n----K: %d\n", K);
 		ofstream outNumPaths(comparisonOutSampleNumberFileName, ios::app);
-		for (epsilon=0.05; epsilon<= 0.5; epsilon+=0.05)
+		for (epsilon=0.1; epsilon<= 0.5; epsilon+=0.1)
 		{
 			outNumPaths << epsilon << '\t';
 			alpha = epsilon / (2 - 1.0 / e);
@@ -682,10 +681,25 @@ void GroupBetweenesssCentrality::compareDifferentSamplePathsMethods(const char* 
 	double avgGBCKDD16=0, avgGBCKDD23 = 0, avgGBCada;
 	double samplePathsKDD16=0, samplePathsKDD23 = 0, samplePathsAda;
 
-	int printDelta = 10;
+	int printDelta = 2;
 
 	//double opt = 0.185301 / scaleDownFactor;
 	//printf("\nopt: %.4lf\n", opt);
+
+	/*double b = 1.48;
+	double bk = b;
+	int numK = 50;
+	double temp;
+	double last = (1.5 - 9.0 / (2 * b + 4.0)) * (1.0 - 1.0 / b);
+	for (i = 1; i <= numK; ++i)
+	{
+		temp = (1.5 - 9.0 / (2 * bk + 4.0))* (1.0 - 1.0 / bk);
+		//printf("b^%d: %.3lf, ratio: %.6lf, times: %.5lf\n", i, bk, temp, temp /last);
+		bk *= b;
+	}
+
+
+	double GBCs[3];
 
 	if (1 == comparisonType) { //1: compare different values of K
 		epsilon = 0.3;
@@ -712,57 +726,67 @@ void GroupBetweenesssCentrality::compareDifferentSamplePathsMethods(const char* 
 			}
 			samplePathsAda /= testTimes;
 			ft = clock();
-
 			avgGBCada /= testTimes;
 			avgGBCada *= scaleDownFactor;
  			
 			printf("samplePathsAda: %.0lf, avgGBCada: %.4lf, time: %.4lf\n", samplePathsAda, avgGBCada, (ft-st)/1000.0);
 			
-			ofstream outNumPaths(comparisonOutSampleNumberFileName, ios::app);
-			outNumPaths << K << '\t' << samplePathsAda << '\n';
-			outNumPaths.close();
+			//ofstream outNumPaths(comparisonOutSampleNumberFileName, ios::app);
+			//outNumPaths << K << '\t' << samplePathsAda << '\n';
+			//outNumPaths.close();
 			
-			/*samplePathsKDD23 = 0;
+			//---------------
+			samplePathsKDD23 = 0;
 			epsilonKDD23 = epsilon * 0.9;
+			avgGBCKDD23 = 0;
 			for (i = 0; i < testTimes; ++i)
 			{
 				srand(11 + i);
 				curGBC = curCC.findTopKGBCAdaptiveSampling(K, epsilonKDD23, gamma, foundNodes, sampledPaths);
+				avgGBCKDD23 += curGBC;
 				for (j = 0; j < K; ++j) foundSets.push_back(foundNodes[j]);
 				samplePathsKDD23 += sampledPaths;
 				if ((i + 1) % printDelta == 0)
 					printf("KDD23, %d th try, sampledPaths: %d, time used: %.0lf\n", i + 1, sampledPaths, (clock() - st) / 1000.0);
 			}
 			samplePathsKDD23 /= testTimes;
+			avgGBCKDD23 /= testTimes;
+			avgGBCKDD23 *= scaleDownFactor;
 			
 			samplePathsKDD16 = 0;
+			avgGBCKDD16 = 0;
 			epsilonKDD16 = epsilonKDD23 * 0.9;
 			for (i = 0; i < testTimes; ++i)
 			{
 				srand(11 + i);
 				curGBC = curCC.findTopKGBCAdaptiveSampling(K, epsilonKDD16, gamma, foundNodes, sampledPaths);
+				avgGBCKDD16 += curGBC;
 				for (j = 0; j < K; ++j) foundSets.push_back(foundNodes[j]);
 				samplePathsKDD16 += sampledPaths;
 				if ((i + 1) % printDelta == 0)
 					printf("KDD16, %d th try, sampledPaths: %d, time used: %.0lf\n", i + 1, sampledPaths, (clock() - st) / 1000.0);
 			}
 			samplePathsKDD16 /= testTimes;
+			avgGBCKDD16 /= testTimes;
+			avgGBCKDD16 *= scaleDownFactor;
 			
+			GBCs[0] = avgGBCada; GBCs[1] = avgGBCKDD23; GBCs[2] = avgGBCKDD16;
+			sort(GBCs, GBCs + 3);
+			avgGBCada = GBCs[0]; avgGBCKDD23 = GBCs[1];  avgGBCKDD16 = GBCs[2];
+
 			// max: KDD16, avg: KDD23, min: Ada
-			avgGBCKDD23 = curCC.groupBC_BatchEvaluation(foundSets, K, avgGBCada,
-				avgGBCKDD16, scaleDownFactor, NULL, 0, testTimes, nodesFractionForEvaluation, false);
+			//avgGBCKDD23 = curCC.groupBC_BatchEvaluation(foundSets, K, avgGBCada,
+			//	avgGBCKDD16, scaleDownFactor, NULL, 0, testTimes, nodesFractionForEvaluation, false);
 			
 
 			ofstream outGBC(comparisonOutGBCFileName, ios::app);
-			ofstream outNumPaths(comparisonOutSampleNumberFileName, ios::app);
 			outGBC << K << '\t'; // compare different values of K
 			outGBC << avgGBCKDD16 << '\t' << avgGBCKDD23 << '\t' << avgGBCada << '\n';
-			outNumPaths << K << '\t';
-			outNumPaths << samplePathsKDD16 << '\t' << samplePathsKDD23 << '\t' << samplePathsAda << '\n';
 			outGBC.close();
-			outNumPaths.close();
-	        /**/
-			
+			//ofstream outNumPaths(comparisonOutSampleNumberFileName, ios::app);
+			//outNumPaths << K << '\t';
+			//outNumPaths << samplePathsKDD16 << '\t' << samplePathsKDD23 << '\t' << samplePathsAda << '\n';
+			//outNumPaths.close();
 		}
 	}else if (2 == comparisonType) { // 2: compare different values of epsilon
 		K = 100;
@@ -789,51 +813,66 @@ void GroupBetweenesssCentrality::compareDifferentSamplePathsMethods(const char* 
 
 			printf("samplePathsAda: %.0lf, avgGBCada: %.4lf\n", samplePathsAda, avgGBCada);
 			
-			ofstream outNumPaths(comparisonOutSampleNumberFileName, ios::app);
-			outNumPaths << epsilon << '\t' << samplePathsAda << '\n';
-			outNumPaths.close();
-			printf("samplePathsAda: %.0lf\n", samplePathsAda);
+			//ofstream outNumPaths(comparisonOutSampleNumberFileName, ios::app);
+			//outNumPaths << epsilon << '\t' << samplePathsAda << '\n';
+			//outNumPaths.close();
+			//printf("samplePathsAda: %.0lf\n", samplePathsAda);
 			
-
-			/*samplePathsKDD23 = 0;
+			//-------------------------------
+			samplePathsKDD23 = 0;
+			avgGBCKDD23 = 0;
 			epsilonKDD23 = epsilon * 0.9;
 			for (i = 0; i < testTimes; ++i)
 			{
 				srand(11 + i);
 				curGBC = curCC.findTopKGBCAdaptiveSampling(K, epsilonKDD23, gamma, foundNodes, sampledPaths);
+				avgGBCKDD23 += curGBC;
 				for (j = 0; j < K; ++j) foundSets.push_back(foundNodes[j]);
 				samplePathsKDD23 += sampledPaths;
 				if ((i + 1) % printDelta == 0)
 					printf("KDD23, %d th try, sampledPaths: %d, time used: %.0lf\n", i + 1, sampledPaths, (clock() - st) / 1000.0);
 			}
 			samplePathsKDD23 /= testTimes;
+			avgGBCKDD23 /= testTimes;
+			avgGBCKDD23 *= scaleDownFactor;
 			
-			samplePathsKDD16 = 0;
+			
+			samplePathsKDD16 = 0; avgGBCKDD16 = 0;
 			epsilonKDD16 = epsilonKDD23 * 0.9;
 			for (i = 0; i < testTimes; ++i)
 			{
 				srand(11 + i);
 				curGBC = curCC.findTopKGBCAdaptiveSampling(K, epsilonKDD16, gamma, foundNodes, sampledPaths);
+				avgGBCKDD16 += curGBC;
 				for (j = 0; j < K; ++j) foundSets.push_back(foundNodes[j]);
 				samplePathsKDD16 += sampledPaths;
 				if ((i + 1) % printDelta == 0)
 					printf("KDD16, %d th try, sampledPaths: %d, time used: %.0lf\n", i + 1, sampledPaths, (clock() - st) / 1000.0);
 			}
 			samplePathsKDD16 /= testTimes;
+			avgGBCKDD16 /= testTimes;
+			avgGBCKDD16 *= scaleDownFactor;
 			
 			// max: KDD16, avg: KDD23, min: Ada
-			avgGBCKDD23 = curCC.groupBC_BatchEvaluation(foundSets, K, avgGBCada, avgGBCKDD16, scaleDownFactor, NULL, 0, testTimes, nodesFractionForEvaluation, false);
+			//avgGBCKDD23 = curCC.groupBC_BatchEvaluation(foundSets, K, avgGBCada, avgGBCKDD16, scaleDownFactor, NULL, 0, testTimes, nodesFractionForEvaluation, false);
+
+			GBCs[0] = avgGBCada; GBCs[1] = avgGBCKDD23; GBCs[2] = avgGBCKDD16;
+			sort(GBCs, GBCs + 3);
+			avgGBCada = GBCs[0]; avgGBCKDD23 = GBCs[1];  avgGBCKDD16 = GBCs[2];
+
+			// max: KDD16, avg: KDD23, min: Ada
+			//avgGBCKDD23 = curCC.groupBC_BatchEvaluation(foundSets, K, avgGBCada,
+			//	avgGBCKDD16, scaleDownFactor, NULL, 0, testTimes, nodesFractionForEvaluation, false);
+
 
 			ofstream outGBC(comparisonOutGBCFileName, ios::app);
-			ofstream outNumPaths(comparisonOutSampleNumberFileName, ios::app);
 			outGBC << epsilon << '\t'; // compare different values of K
 			outGBC << avgGBCKDD16 << '\t' << avgGBCKDD23 << '\t' << avgGBCada << '\n';
-			outNumPaths << epsilon << '\t';
-			outNumPaths << samplePathsKDD16 << '\t' << samplePathsKDD23 << '\t' << samplePathsAda << '\n';
 			outGBC.close();
-			outNumPaths.close();
-			/**/
-			
+			//ofstream outNumPaths(comparisonOutSampleNumberFileName, ios::app);
+			//outNumPaths << epsilon << '\t';
+			//outNumPaths << samplePathsKDD16 << '\t' << samplePathsKDD23 << '\t' << samplePathsAda << '\n';
+			//outNumPaths.close();
 		}
 	}/**/
 
@@ -1024,6 +1063,8 @@ void GroupBetweenesssCentrality::testErrorRatioBeta(const char* graphName)
 
 	int numberChosenPaths;
 	int minChosenPaths = 500, maxChosenPaths = 16000;
+	totalSampledShortestPathsSetS = 0;
+	totalSampledShortestPathsSetT = 0;
 	for (numberChosenPaths = minChosenPaths; numberChosenPaths <= maxChosenPaths; numberChosenPaths *= 2)
 	{
 		printf("numberChosenPaths L: %d \n", numberChosenPaths);
@@ -1032,12 +1073,15 @@ void GroupBetweenesssCentrality::testErrorRatioBeta(const char* graphName)
 		for (i = 0; i < testTimes; ++i)
 		{
 			srand(i + 11);
+			
 			generateRandomPairs(curCC.n, numberChosenPaths, randomPairs);
+			
 			curBiasedGBC = curCC.rankByGroupBCWithSampleShortestPathsBiBFS(randomPairs, foundNodes, K, foundTimes);
 			curBiasedGBC *= scaleDownFactor;
 			
 			srand(1997 + i);
 			generateRandomPairs(curCC.n, numberChosenPaths, randomPairs);
+			
 			curUnbiasedGBC = curCC.evaluateGBCbySampleShoretstPaths(foundNodes, randomPairs);
 			curUnbiasedGBC *= scaleDownFactor;
 			if (curUnbiasedGBC > curBiasedGBC)  curUnbiasedGBC = curBiasedGBC;
@@ -1046,11 +1090,18 @@ void GroupBetweenesssCentrality::testErrorRatioBeta(const char* graphName)
 			avgErrorRatioBeta += curErrorRatioBeta;
 			if (curErrorRatioBeta > maxErrorRatioBeta) maxErrorRatioBeta = curErrorRatioBeta;
 
-			if ((i + 1) % 10 == 0)
+			for (j = 0; j < totalSampledShortestPathsSetS; ++j)
+				delete[]sampleShortestPathsArraySetS[j];
+			totalSampledShortestPathsSetS = 0;
+			for (j= 0; j < totalSampledShortestPathsSetT; ++j)
+				delete[]sampleShortestPathsArraySetT[j];
+			totalSampledShortestPathsSetT = 0;
+
+			if ((i + 1) % 10 == 0) {
 				printf("maxL: %d, cur L: %d, testTimes: %d, cur Times: %d, time used: %.2lf\n",
 					maxChosenPaths, numberChosenPaths, testTimes, i + 1, (clock() - st) / 1000.0);
-
-			//printf("curBiasedGBC: %.6lf, curUnbiasedGBC: %.6lf, curErrorRatioBeta: %.4lf%%, maxErrorRatioBeta: %.4lf%%\n",curBiasedGBC, curUnbiasedGBC, 100 * curErrorRatioBeta, 100 * maxErrorRatioBeta);
+				printf("curBiasedGBC: %.6lf, curUnbiasedGBC: %.6lf, curErrorRatioBeta: %.4lf%%, maxErrorRatioBeta: %.4lf%%\n", curBiasedGBC, curUnbiasedGBC, 100 * curErrorRatioBeta, 100 * maxErrorRatioBeta);
+			}
 		}
 		avgErrorRatioBeta /= testTimes;
 

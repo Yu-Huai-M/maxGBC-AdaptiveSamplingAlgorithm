@@ -1124,12 +1124,13 @@ double Graph::findTopKGBCAdaptiveSampling(int K, double epsilon, double errorPro
 	double c2 = (2 + alpha) / (alpha * alpha);
 	double b = 3 * c2 + 2 + sqrt(18*c2+4);
 	b /= 3 * c2 - 2;
+	//printf("\nbmin: %.3lf\n", b);
 	if (b < 1.1) b = 1.1;
 	//b = 2; // for testing
 
 	double Qmax = log(double(n) * (n - 1.0));
 	Qmax = ceil( Qmax / log(b) );
-	//printf("\nn: %d, base b: %.3lf, Qmax: %.0lf\n", n, b, Qmax);
+	//printf("n: %d, base b: %.3lf, Qmax: %.0lf\n", n, b, Qmax);
 
 	double d1;
 	 d1 = log(2.0 / errorProb) + log(Qmax);

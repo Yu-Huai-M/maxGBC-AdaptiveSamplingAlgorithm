@@ -12,9 +12,10 @@ void testUniform();
 int main(const int argc, const char *argv[])
 {
 	//  GR-QC Epinions Twitter  DBLP-2011 LiveJournal dblp testGraph    
-	int dataset = 0;  // 0-10
-	char graphNames[12][20] = { "GR-QC", "Epinions", "Twitter", "DBLP-2011",
-		"LiveJournal", "dblp", "Email-euAll", "Facebook", "testGraph", "exampleGraph", "dominatorTestGraph", "testGraphForBC"};
+	int dataset = 13;  // 0-10
+	char graphNames[14][30] = { "GR-QC", "Epinions", "Twitter", "DBLP-2011",
+		"LiveJournal", "dblp", "Email-euAll", "Facebook", "testGraph", "exampleGraph", "dominatorTestGraph", 
+		"testGraphForBC", "syntheticNetwork-BA", "syntheticNetwork-WS"};
 	// GR-QC: 0, 
 	//facebook: 7, 
 	//Twitter: 2, 
@@ -23,6 +24,8 @@ int main(const int argc, const char *argv[])
 	//LiveJournal: 4, 
 	//dblp: 5
 	// Epinions: 1
+	//syntheticNetwork-BA: 12
+	// syntheticNetwork-WS: 13
 	char testFileName[50];
 	sprintf_s(testFileName, "datasets/%s.txt", graphNames[dataset]);
 
