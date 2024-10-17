@@ -1,6 +1,6 @@
 # An Adaptive Sampling Algorithm for the Top-K Group Betweenness Centrality
  This repository implements the Adaptive Sampling Algorithm in our paper "An Adaptive Sampling Algorithm for the Top-K Group Betweenness Centrality". \
- We proposed a novel Adaptive Sampling Algorithm to solve the Top-K Group Betweenness Centrality problem, which is to find a group of K nodes from a network so that the total fraction of shortest paths that pass through the K nodes is maximized. \
+ We proposed a novel Adaptive Sampling Algorithm to solve the Top-K Group Betweenness Centrality problem, which is to find a group of K nodes from a network so that the total fraction of shortest paths that pass through the K nodes is maximized. 
 # Installation
  The algorithm is completed by c++, and the software requires *Microsoft Visual Studio 2023*.
 # Running
