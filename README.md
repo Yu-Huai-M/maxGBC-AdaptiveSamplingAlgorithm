@@ -8,4 +8,4 @@
 # Datasets
  We adopt real-world networks, which can be found in `datasets`.
 # Results
- Experimental results with real-world networks demonstrate that the running time of the proposed algorithm is from 2.5 to 18 times faster than the state-of-the-art, while the centrality of the group found by the algorithm is comparable with the baseline.
+ Experimental results with real-world networks demonstrate that the numer of samples used by the proposed algorithm is from 2 to 18 times smaller than the state-of-the-art, while the centrality of the group found by the algorithm is comparable with the baseline.
